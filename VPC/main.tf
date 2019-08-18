@@ -1,15 +1,23 @@
+module "vpc" {
+  source     = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=master"
+  namespace  = "${var.namespace}"
+  name       = "vpc"
+  stage      = "${var.stage}"
+  cidr_block = "${var.cidr_block}"
+}
+
 locals {
   public_cidr_block  = "${cidrsubnet(var.cidr_block, 1, 0)}"
   private_cidr_block = "${cidrsubnet(var.cidr_block, 1, 1)}"
 }
 
 module "public_subnets" {
-  source              = "../../"
+  source              = "git::https://github.com/cloudposse/terraform-aws-multi-az-subnets.git?ref=master"
   namespace           = "${var.namespace}"
   stage               = "${var.stage}"
   name                = "${var.name}"
   availability_zones  = "${var.az}"
-  vpc_id              = "${var.vpc_id}"
+  vpc_id              = "${module.vpc.vpc_id}"
   cidr_block          = "${local.public_cidr_block}"
   type                = "public"
   igw_id              = "${var.igw_id}"
@@ -17,12 +25,12 @@ module "public_subnets" {
 }
 
 module "private_subnets" {
-  source             = "../../"
+  source             = "git::https://github.com/cloudposse/terraform-aws-multi-az-subnets.git?ref=master"
   namespace          = "${var.namespace}"
   stage              = "${var.stage}"
   name               = "${var.name}"
   availability_zones = "${var.az}"
-  vpc_id             = "${var.vpc_id}"
+  vpc_id             = "${module.vpc.vpc_id}"
   cidr_block         = "${local.private_cidr_block}"
   type               = "private"
 
