@@ -28,5 +28,5 @@ variable "igw_id" {
 variable "az" {
   type        = "list"
   description = "list of AZ available "
-  default     = ["ap-southeast-2a","ap-southeast-2b","ap-southeast-2c"]
+  default     = ["ap-southeast-2a", "ap-southeast-2b", "ap-southeast-2c"]
 }
