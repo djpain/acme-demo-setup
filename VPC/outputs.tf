@@ -1,23 +1,39 @@
-output "private_az_subnet_ids" {
-  value = "${module.private_subnets.az_subnet_ids}"
+# VPC
+output "vpc_id" {
+  description = "The ID of the VPC"
+  value       = module.vpc.vpc_id
 }
 
-output "public_az_subnet_ids" {
-  value = "${module.public_subnets.az_subnet_ids}"
+# CIDR blocks
+output "vpc_cidr_block" {
+  description = "The CIDR block of the VPC"
+  value       = module.vpc.vpc_cidr_block
 }
 
-output "private_az_ngw_ids" {
-  value = "${module.private_subnets.az_ngw_ids}"
+//output "vpc_ipv6_cidr_block" {
+//  description = "The IPv6 CIDR block"
+//  value       = ["${module.vpc.vpc_ipv6_cidr_block}"]
+//}
+
+# Subnets
+output "private_subnets" {
+  description = "List of IDs of private subnets"
+  value       = module.vpc.private_subnets
 }
 
-output "public_az_ngw_ids" {
-  value = "${module.public_subnets.az_ngw_ids}"
+output "public_subnets" {
+  description = "List of IDs of public subnets"
+  value       = module.vpc.public_subnets
 }
 
-output "private_az_route_table_ids" {
-  value = "${module.private_subnets.az_route_table_ids}"
+# NAT gateways
+output "nat_public_ips" {
+  description = "List of public Elastic IPs created for AWS NAT Gateway"
+  value       = module.vpc.nat_public_ips
 }
 
-output "public_az_route_table_ids" {
-  value = "${module.public_subnets.az_route_table_ids}"
+# AZs
+output "azs" {
+  description = "A list of availability zones spefified as argument to this module"
+  value       = module.vpc.azs
 }

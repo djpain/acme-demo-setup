@@ -1,45 +1,38 @@
+provider "aws" {
+  region = "ap-southeast-2"
+}
+
+data "aws_security_group" "default" {
+  name   = "default"
+  vpc_id = module.vpc.vpc_id
+}
+
 module "vpc" {
-  source     = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=master"
-  namespace  = "${var.namespace}"
-  name       = "vpc"
-  stage      = "${var.stage}"
-  cidr_block = "${var.cidr_block}"
-}
+  source = "terraform-aws-modules/vpc/aws"
 
-locals {
-  public_cidr_block  = "${cidrsubnet(var.cidr_block, 1, 0)}"
-  private_cidr_block = "${cidrsubnet(var.cidr_block, 1, 1)}"
-}
+  name = var.vpcname
 
-module "public_subnets" {
-  source              = "git::https://github.com/cloudposse/terraform-aws-multi-az-subnets.git?ref=master"
-  namespace           = "${var.namespace}"
-  stage               = "${var.stage}"
-  name                = "${var.name}"
-  availability_zones  = "${var.az}"
-  vpc_id              = "${module.vpc.vpc_id}"
-  cidr_block          = "${local.public_cidr_block}"
-  type                = "public"
-  igw_id              = "${var.igw_id}"
-  nat_gateway_enabled = "true"
-}
+  cidr = "10.0.0.0/16"
 
-module "private_subnets" {
-  source             = "git::https://github.com/cloudposse/terraform-aws-multi-az-subnets.git?ref=master"
-  namespace          = "${var.namespace}"
-  stage              = "${var.stage}"
-  name               = "${var.name}"
-  availability_zones = "${var.az}"
-  vpc_id             = "${module.vpc.vpc_id}"
-  cidr_block         = "${local.private_cidr_block}"
-  type               = "private"
+  azs             = ["ap-southeast-2a", "ap-southeast-2b", "ap-southeast-2c"]
+  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
 
-  # Map of AZ names to NAT Gateway IDs that was created in "public_subnets" module
-  az_ngw_ids = "${module.public_subnets.az_ngw_ids}"
+  assign_generated_ipv6_cidr_block = true
 
-  # Need to explicitly provide the count since Terraform currently can't use dynamic count on computed resources from different modules
-  # https://github.com/hashicorp/terraform/issues/10857
-  # https://github.com/hashicorp/terraform/issues/12125
-  # https://github.com/hashicorp/terraform/issues/4149
-  az_ngw_count = 3
+  enable_nat_gateway = true
+  single_nat_gateway = true
+
+  public_subnet_tags = {
+    Name = "public-${var.vpcname}"
+  }
+
+  tags = {
+    Owner       = var.vpcname
+    Environment = var.environment
+  }
+
+  vpc_tags = {
+    Name = var.vpcname
+  }
 }
