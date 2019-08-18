@@ -11,5 +11,5 @@ variable "namespace" {
 }
 
 variable "environment" {
-description = "Enviroment Name"
+  description = "Enviroment Name"
 }
