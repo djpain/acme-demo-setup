@@ -43,3 +43,6 @@ Run prometheus server
 Setup replication or data migration
 Setup multi az for instance
 
+
+terraform plan -var-file=../ENV/s3-dev.tfvars -var-file=../ENV/dev.tfvars -out devfe.out
+

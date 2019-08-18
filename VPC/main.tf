@@ -28,7 +28,7 @@ module "vpc" {
   }
 
   tags = {
-    Owner       = var.vpcname
+    Owner       = var.namespace
     Environment = var.environment
   }
 
