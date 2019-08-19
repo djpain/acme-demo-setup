@@ -1,8 +1,3 @@
-provider "aws" {
-    region = var.region
-}
-
-
 ####################################
 # Variables common to both instnaces
 ####################################
@@ -32,7 +27,7 @@ module "master" {
   username = var.pgusername
   password = var.pgpassword
   port     = local.port
-
+  
   tags = {
     Owner       = var.namespace
     Environment = var.environment
@@ -78,7 +73,7 @@ module "replica" {
     Owner       = var.namespace
     Environment = var.environment
   }
-
+  
 
   maintenance_window = "Tue:00:00-Tue:03:00"
   backup_window      = "03:00-06:00"

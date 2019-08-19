@@ -9,3 +9,7 @@ variable "environment" {
 variable "namespace" {
   description = "Namespace for application"
 }
+
+variable "region" {
+  
+}

@@ -11,29 +11,25 @@ variable "namespace" {
 }
 
 variable "pgdbname" {
-  
+
 }
 
-variable "sg_name" {
-  
-}
+# variable "sg_name" {
+
+# }
 
 variable "pgusername" {
-  
+
 }
 
 variable "pgpassword" {
-  
+
 }
 
 variable "region" {
-  
-}
 
-variable "dbvpcid" {
-  
 }
 
 variable "pgsubnet" {
-  
+
 }
