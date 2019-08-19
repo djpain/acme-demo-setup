@@ -10,8 +10,6 @@ data "aws_security_group" "default" {
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = var.vpcname
-
   cidr = "10.0.0.0/16"
 
   azs             = ["ap-southeast-2a", "ap-southeast-2b", "ap-southeast-2c"]

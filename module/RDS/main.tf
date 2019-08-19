@@ -2,22 +2,6 @@ provider "aws" {
     region = var.region
 }
 
-module "postgres_sg" {
-  source = "terraform-aws-modules/security-group/aws"
-
-  name        = "postgres-sg"
-  description = "Security group for user-service with custom ports open within VPC, and PostgreSQL publicly open"
-  vpc_id      = "vpc-12345678"
-
-  ingress_cidr_blocks      = ["10.10.0.0/16"]
-  ingress_rules            = ["https-443-tcp"]
-  ingress_with_cidr_blocks = [
-    {
-      rule        = "postgresql-tcp"
-      cidr_blocks = "10.10.0.0/16"
-    },
-  ]
-}
 
 ####################################
 # Variables common to both instnaces
@@ -54,7 +38,6 @@ module "master" {
     Environment = var.environment
   }
 
-  vpc_security_group_ids = [data.postgres_sg.id]
 
   maintenance_window = "Mon:00:00-Mon:03:00"
   backup_window      = "03:00-06:00"
@@ -63,7 +46,7 @@ module "master" {
   backup_retention_period = 1
 
   # DB subnet group
-  subnet_ids = [data.vpc.private_subnets]
+  subnet_ids = var.pgsubnet
 
   create_db_option_group    = false
   create_db_parameter_group = false
@@ -96,7 +79,6 @@ module "replica" {
     Environment = var.environment
   }
 
-  vpc_security_group_ids = [data.aws_security_group.default.id]
 
   maintenance_window = "Tue:00:00-Tue:03:00"
   backup_window      = "03:00-06:00"

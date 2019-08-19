@@ -10,30 +10,23 @@ variable "namespace" {
   description = "Namespace for application"
 }
 
-variable "pgdbname" {
-  
+variable "dbname" {
+
 }
 
-variable "sg_name" {
-  
+variable "dbsgname" {
+
 }
 
-variable "pgusername" {
-  
+variable "dbusername" {
+
 }
 
-variable "pgpassword" {
-  
+variable "dbpassword" {
+
 }
 
 variable "region" {
-  
+
 }
 
-variable "dbvpcid" {
-  
-}
-
-variable "pgsubnet" {
-  
-}
