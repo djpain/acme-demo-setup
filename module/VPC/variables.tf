@@ -6,3 +6,6 @@ variable "environment" {
   description = "environment name"
 }
 
+variable "namespace" {
+  description = "Namespace for application"
+}
