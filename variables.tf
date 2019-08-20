@@ -26,6 +26,10 @@ variable "dbpassword" {
 
 }
 
+variable "bucketname" {
+  description = "s3 bucketname"
+}
+
 variable "region" {
 
 }

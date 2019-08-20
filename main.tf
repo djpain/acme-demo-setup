@@ -7,7 +7,7 @@ module "vpc" {
   vpcname     = var.vpcname
   namespace   = var.namespace
   environment = var.environment
-    region = var.region
+  region      = var.region
 }
 # module "postgres_sg" {
 #   source  = "./module/SG/"
@@ -15,6 +15,22 @@ module "vpc" {
 #   sg_name = var.dbsgname
 
 # }
+module "fe" {
+  source      = "./module/FE/"
+  bucketname  = var.bucketname
+  region      = var.region
+  namespace   = var.namespace
+  environment = var.environment
+}
+
+module "eks" {
+  source      = "./module/EKS/"
+  vpcname     = var.vpcname
+  namespace   = var.namespace
+  environment = var.environment
+  region      = var.region
+  vpc_id       = module.vpc.vpc_id
+}
 
 module "rds" {
   source = "./module/RDS/"
