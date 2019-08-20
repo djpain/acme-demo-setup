@@ -34,15 +34,4 @@ variable "region" {
 
 }
 
-variable "map_roles" {
-  
-}
-
-variable "map_users" {
-  
-}
-
-variable "map_accounts" {
-  
-}
 

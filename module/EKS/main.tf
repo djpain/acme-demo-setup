@@ -32,20 +32,7 @@ data "aws_caller_identity" "available" {
 locals {
   cluster_name = "${var.namespace}-eks-${random_string.suffix.result}"
 }
-locals {
-  eks_map_roles = [
-    {
-      role_arn = "arn:aws:iam::${data.aws_caller_identity.available.account_id}:role/xxxxx"
-      username = "admin:{{SessionName}}"
-      group    = "system:masters"
-    },
-    {
-      role_arn = "arn:aws:iam::${data.aws_caller_identity.available.account_id}:role/xxxxxxx"
-      username = "admin:{{SessionName}}"
-      group    = "system:masters"
-    },
-  ]
-}
+
 resource "random_string" "suffix" {
   length  = 8
   special = false
@@ -98,34 +85,11 @@ resource "aws_security_group" "all_worker_mgmt" {
   }
 }
 
-resource "aws_iam_role" "test_role" {
-  name = "test_role"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
-
-  tags = {
-    tag-key = "tag-value"
-  }
-}
-
 module "eks" {
   source       = "terraform-aws-modules/eks/aws"
   cluster_name = local.cluster_name
   subnets      = var.privatesubnet
+  manage_aws_auth = true
 
   tags = {
     Environment = var.environment
@@ -151,7 +115,6 @@ module "eks" {
   ]
 
   worker_additional_security_group_ids = [aws_security_group.all_worker_mgmt.id]
-  map_roles                            = local.eks_map_roles
-  map_users                            = [aws_caller_identity.available.caller_user]
-  map_accounts                         = [aws_caller_identity.available.account_id]
+  map_users                            = [data.aws_caller_identity.available.user_id]
+  map_accounts                         = [data.aws_caller_identity.available.account_id]
 }

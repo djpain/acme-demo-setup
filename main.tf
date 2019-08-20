@@ -24,12 +24,12 @@ module "fe" {
 }
 
 module "eks" {
-  source      = "./module/EKS/"
-  vpcname     = var.vpcname
-  namespace   = var.namespace
-  environment = var.environment
-  region      = var.region
-  vpc_id       = module.vpc.vpc_id
+  source        = "./module/EKS/"
+  namespace     = var.namespace
+  environment   = var.environment
+  region        = var.region
+  privatesubnet = module.vpc.private_subnets
+  vpc_id        = module.vpc.vpc_id
 }
 
 module "rds" {
