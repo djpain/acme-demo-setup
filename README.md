@@ -1,4 +1,4 @@
-# balena-test
+# ACME-DEMO
 
 After given the requirements I broke everything down to seperate tasks. The setting up of the UI was the easy part but then setting up all the infrastructure of the API took a little bit longer.
 
@@ -57,8 +57,9 @@ What this does is run a plan of what terraform will build. It uses the variable 
 
 `terraform destroy -var-file=ENV/rds-dev.tfvars -var-file=ENV/dev.tfvars -var-file=ENV/s3-dev.tfvars`
 
+## AWS CLI & KUBECTL Setup
 
-Helm init 
+## Helm init 
 
 helm install stable/prometheus --name test-prometheus -f HELM/prometheus_values.yaml --kubeconfig=kubeconfig_test-eks-imlFjOiW
 
