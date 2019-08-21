@@ -29,14 +29,6 @@ data "aws_caller_identity" "available" {
   provider = aws
 }
 
-data "template_file" "usermapping" {
-    template = file("${path.module}/usermap.tmpl")
-    vars = {
-      userarn  = data.aws_caller_identity.available.arn
-      username = data.aws_caller_identity.available.user_id
-    }
-}
-
 locals {
   cluster_name = "${var.namespace}-eks-${random_string.suffix.result}"
 }
@@ -123,6 +115,5 @@ module "eks" {
   ]
 
   worker_additional_security_group_ids = [aws_security_group.all_worker_mgmt.id]
-  map_users                            = [data.template_file.usermapping.rendered]
   map_accounts                         = [data.aws_caller_identity.available.account_id]
 }
