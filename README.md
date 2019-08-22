@@ -78,7 +78,9 @@ kube-system   Active   134m
 
 ## Destorying the infrastructure 
 
-`terraform destroy -var-file=ENV/rds-dev.tfvars -var-file=ENV/dev.tfvars -var-file=ENV/s3-dev.tfvars`
+Once you want to destroy all the infrastructure you will just need to run the following command
+
+`terraform destroy -var-file=ENV/s3-dev.tfvars -var-file=ENV/dev.tfvars -var-file=ENV/rds-dev.tfvars`
 
 # HELM and deploying apps 
 
