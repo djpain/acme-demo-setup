@@ -75,6 +75,12 @@ default       Active   134m
 kube-public   Active   134m
 kube-system   Active   134m
 
+Or 
+
+`kubectl get svc --kubeconfig=kubeconfig_test-eks-YySjiu2M`
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   172.20.0.1   <none>        443/TCP   3h38m
+
 
 ## Destorying the infrastructure 
 
@@ -84,14 +90,28 @@ Once you want to destroy all the infrastructure you will just need to run the fo
 
 # HELM and deploying apps 
 
+To deploy the applications we will be using helm to deploy applications to kubernettes. https://helm.sh/
+
 ## Helm init 
 
-## Installing prometheus using helm
+To initalise helm you will need to run the following command
+
+`helm init`
+
+Now we need to setup k8s to work with it and tiller. To do this please follow this guide from AWS.
+https://docs.aws.amazon.com/eks/latest/userguide/helm.html
+
+## Deploying applications to kubernettes
+
+### Installing prometheus using helm
+
+Once you have initalised helm you just need to run the following command to setup prometheus
+
 `helm install stable/prometheus --name test-prometheus -f HELM/prometheus_values.yaml --kubeconfig={ClusterConfigFile}`
 
-## Setting ALB intergration
+### Setting ALB intergration
 
-`helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator`
+`helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator --kubeconfig=`
 
-`helm install incubator/aws-alb-ingress-controller --set autoDiscoverAwsRegion=true --set autoDiscoverAwsVpcID=true --set clusterName=test-cluster`
+`helm install incubator/aws-alb-ingress-controller --set autoDiscoverAwsRegion=true --set autoDiscoverAwsVpcID=true --set clusterName=test-cluster --kubeconfig=`
 
