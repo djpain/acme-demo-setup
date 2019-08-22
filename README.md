@@ -1,6 +1,6 @@
 # ACME-DEMO
 
-After given the requirements I broke everything down to seperate tasks. The setting up of the UI was the easy part but then setting up all the infrastructure of the API took a little bit longer.
+So I broke this down into specific tasks.
 
 #### UI
 	Create s3 bucket
@@ -78,6 +78,7 @@ kube-system   Active   134m
 Or 
 
 `kubectl get svc --kubeconfig=kubeconfig_test-eks-YySjiu2M`
+
 NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 kubernetes   ClusterIP   172.20.0.1   <none>        443/TCP   3h38m
 
