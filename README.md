@@ -45,23 +45,37 @@ To get this all deployed you will need `Terraform v0.12`, `kubectl`, `awscli` an
 
 `go get -u -v sigs.k8s.io/aws-iam-authenticator/cmd/aws-iam-authenticator`
 
-## Initalising the install 
+## Creating the infrastructure 
 
 Once you have all the tools installed you will need to go to the root directory of this repo and from there run the command `terraform init`. Terraform will go then and get all the required modules to setup the required infrastructure.
 
 Once you are ready you can run the following command 
 
-`terraform plan -var-file=../ENV/s3-dev.tfvars -var-file=../ENV/dev.tfvars -out dev.out`
+`terraform plan -var-file=ENV/s3-dev.tfvars -var-file=ENV/dev.tfvars -var-file=ENV/rds-dev.tfvars -out dev.out`
 
-What this does is run a plan of what terraform will build. It uses the variable files from the `ENV` directory. It also creates 
+What this does is run a plan of what terraform will build. It uses the variable files from the `ENV` directory. Once completed you will need to run the following command to start the building of the infrastructure.
+
+`terraform apply "dev.out"`
+
+This will setup a S3 bucket where the static website will be served from.From here it wil then start building the VPC with public subnets and private subnets across all three australian az. 
+Once the VPC creation is completed it will start the creation of the postgres Master server and then the ASG for the EKS cluster. When the Postgres Master is completed it will then start building the Postgres Slave. Both of these services will be running  in the private subnet. 
+
+Once the EKS cluster is setup it will generate the kubcetl config for you so you can connect to the cluster.
+
+## Connecting to EKS
+
+## Destorying the infrastructure 
 
 `terraform destroy -var-file=ENV/rds-dev.tfvars -var-file=ENV/dev.tfvars -var-file=ENV/s3-dev.tfvars`
 
-## AWS CLI & KUBECTL Setup
+# HELM and deploying apps 
 
 ## Helm init 
 
-helm install stable/prometheus --name test-prometheus -f HELM/prometheus_values.yaml --kubeconfig=kubeconfig_test-eks-imlFjOiW
+## Installing prometheus using helm
+helm install stable/prometheus --name test-prometheus -f HELM/prometheus_values.yaml --kubeconfig={ClusterConfigFile}
+
+## Setting ALB intergration
 
 helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
 
