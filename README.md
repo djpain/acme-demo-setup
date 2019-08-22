@@ -58,7 +58,7 @@ What this does is run a plan of what terraform will build. It uses the variable 
 `terraform apply "dev.out"`
 
 This will setup a S3 bucket where the static website will be served from.From here it wil then start building the VPC with public subnets and private subnets across all three australian az. 
-Once the VPC creation is completed it will start the creation of the postgres Master server and then the ASG for the EKS cluster. When the Postgres Master is completed it will then start building the Postgres Slave. Both of these services will be running  in the private subnet. 
+Once the VPC creation is completed it will start the creation of the postgres Master server and then the ASG for the EKS cluster. When the Postgres Master is completed it will then start building the Postgres Slave. Both of these services will be running  in the private subnet. Grab a coffe as this usually takes about 15 minutes to create from scratch.
 
 Once the EKS cluster is setup it will generate the kubcetl config for you so you can connect to the cluster.
 
@@ -73,11 +73,11 @@ Once the EKS cluster is setup it will generate the kubcetl config for you so you
 ## Helm init 
 
 ## Installing prometheus using helm
-helm install stable/prometheus --name test-prometheus -f HELM/prometheus_values.yaml --kubeconfig={ClusterConfigFile}
+`helm install stable/prometheus --name test-prometheus -f HELM/prometheus_values.yaml --kubeconfig={ClusterConfigFile}`
 
 ## Setting ALB intergration
 
-helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
+`helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator`
 
-helm install incubator/aws-alb-ingress-controller --set autoDiscoverAwsRegion=true --set autoDiscoverAwsVpcID=true --set clusterName=test-cluster
+`helm install incubator/aws-alb-ingress-controller --set autoDiscoverAwsRegion=true --set autoDiscoverAwsVpcID=true --set clusterName=test-cluster`
 
