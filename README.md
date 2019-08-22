@@ -60,9 +60,21 @@ What this does is run a plan of what terraform will build. It uses the variable 
 This will setup a S3 bucket where the static website will be served from.From here it wil then start building the VPC with public subnets and private subnets across all three australian az. 
 Once the VPC creation is completed it will start the creation of the postgres Master server and then the ASG for the EKS cluster. When the Postgres Master is completed it will then start building the Postgres Slave. Both of these services will be running  in the private subnet. Grab a coffe as this usually takes about 15 minutes to create from scratch.
 
-Once the EKS cluster is setup it will generate the kubcetl config for you so you can connect to the cluster.
+Once the EKS cluster is setup it will generate the kubcetl config file which you can use to connect to the cluster.
 
 ## Connecting to EKS
+
+To connect to the cluster run the following command 
+
+`kubectl get namespaces --kubeconfig=kubeconfig_test-eks-YySjiu2M`
+
+This will show you all the name spaces available.
+
+NAME          STATUS   AGE
+default       Active   134m
+kube-public   Active   134m
+kube-system   Active   134m
+
 
 ## Destorying the infrastructure 
 
