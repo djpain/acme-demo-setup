@@ -111,7 +111,15 @@ Once you have initalised helm you just need to run the following command to setu
 
 ### Setting ALB intergration
 
+#### kube2iam
+
+#### Installing ingergrator 
+This setups for a service to be able to manage the AWS ALB and redirect traffic from a load balancer through to the container. 
+
 `helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator --kubeconfig=`
 
 `helm install incubator/aws-alb-ingress-controller --set autoDiscoverAwsRegion=true --set autoDiscoverAwsVpcID=true --set clusterName=test-cluster --kubeconfig=`
 
+### Deploying the API application
+
+`
