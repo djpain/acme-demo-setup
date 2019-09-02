@@ -70,29 +70,33 @@ From there you will need to open the `dev.tfvars` file with your favorite editor
 
 ```
 vpcname = "Name of vpc here"
-namespce = "Namespace here"
+namespace = "Namespace here"
 dbname = "database name here"
 dbsgname = "database security group name here"
 dbusername = "database user name here"
 dbpassword = "database user password"
 bucketname = "S3 Bucket name here"
+environment = "workspace name here"
+region = "e.g AWS region ap-southeast-2"
 ```
 
 here is a example 
 
 ```
 vpcname = "devvpc"
-namespce = "testapplication"
+namespace = "testapplication"
 dbname = "testdatabase"
 dbsgname = "testdatabasesg"
 dbusername = "testuser"
 dbpassword = "Asecurepassword"
 bucketname = "website-bucket"
+environment = "dev"
+region = "ap-southeast-2"
 ```
 
-Once you are ready you can run the following command 
+Once you have completed you are ready to run terraform plan.
 
-`terraform plan -var-file=ENV/s3-dev.tfvars -var-file=ENV/dev.tfvars -var-file=ENV/rds-dev.tfvars -out dev.out`
+`terraform plan -var-file={tf var file} -out dev.out`
 
 What this does is run a plan of what terraform will build. It uses the variable files from the `ENV` directory. Once completed you will need to run the following command to start the building of the infrastructure.
 
@@ -105,9 +109,12 @@ Once the EKS cluster is setup it will generate the kubcetl config file which you
 
 ## Connecting to EKS
 
+to get the cluster file name type 
+
+
 To connect to the cluster run the following command 
 
-`kubectl get namespaces --kubeconfig=kubeconfig_test-eks-YySjiu2M`
+`kubectl get namespaces --kubeconfig=cubeconfigfilename`
 
 This will show you all the name spaces available.
 
@@ -128,7 +135,7 @@ kubernetes   ClusterIP   172.20.0.1   <none>        443/TCP   3h38m
 
 Once you want to destroy all the infrastructure you will just need to run the following command
 
-`terraform destroy -var-file=ENV/s3-dev.tfvars -var-file=ENV/dev.tfvars -var-file=ENV/rds-dev.tfvars`
+`terraform destroy -var-file={tf var file}`
 
 # HELM and deploying apps 
 

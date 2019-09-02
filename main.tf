@@ -15,13 +15,13 @@ module "vpc" {
 #   sg_name = var.dbsgname
 
 # }
-module "fe" {
-  source      = "./module/FE/"
-  bucketname  = var.bucketname
-  region      = var.region
-  namespace   = var.namespace
-  environment = terraform.workspace
-}
+# module "fe" {
+#   source      = "./module/FE/"
+#   bucketname  = var.bucketname
+#   region      = var.region
+#   namespace   = var.namespace
+#   environment = terraform.workspace
+# }
 
 module "eks" {
   source        = "./module/EKS/"
