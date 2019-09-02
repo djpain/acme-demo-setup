@@ -1,0 +1,7 @@
+vpcname = "Name of vpc here"
+namespce = "Namespace here"
+dbname = "db name here"
+dbsgname = "db sg name here"
+dbusername = "db user name here"
+dbpassword = "db user password"
+bucketname = "bucket name here"

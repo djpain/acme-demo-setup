@@ -40,14 +40,23 @@ To make it easier I made a graph showing all infrastructure layout
 ![alt text](Images/AWS.png "AWS Dev enviroment")
 
 
-## Pre-Requiset 
-To get this all deployed you will need `Terraform v0.12`, `kubectl`, `awscli` and the `aws-iam-authenticator`. To install the `aws-iam-authenticator` you will need to have go installed localy and your $PATH pointing to you `go/bin` directory.
+## Pre-Requiset  
+To get this all deployed you will need `TFENV`, `Terraform v0.12`, `kubectl`, `awscli` and the `aws-iam-authenticator`. To install the `aws-iam-authenticator` you will need to have go installed localy and your $PATH pointing to you `go/bin` directory.
 
+setting up go path
+`export PATH="$HOME/go/bin:$PATH"`
+installing aws iam authenticator
 `go get -u -v sigs.k8s.io/aws-iam-authenticator/cmd/aws-iam-authenticator`
+
+### TFENV
+
+`git clone https://github.com/tfutils/tfenv.git ~/.tfenv`
+`export PATH="$HOME/.tfenv/bin:$PATH"`
+`tfenv install 0.12.7` 
 
 ## Creating the infrastructure 
 
-Once you have all the tools installed you will need to go to the root directory of this repo and from there run the command `terraform init`. Terraform will go then and get all the required modules to setup the required infrastructure.
+Once you have all the tools installed you will need to go to the root directory of this repo. From there run the command `terraofrm workspace new {enviroment name}` and then `terraform init`. Terraform will go then and get all the required modules to setup the required infrastructure.
 
 Once you are ready you can run the following command 
 
