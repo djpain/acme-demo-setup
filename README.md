@@ -50,8 +50,17 @@ installing aws iam authenticator
 
 ### TFENV
 
+#### OSX
+
+`homebrew install tfenv`
+
+`tfenv install 0.12.7`
+
+#### Linux
 `git clone https://github.com/tfutils/tfenv.git ~/.tfenv`
+
 `export PATH="$HOME/.tfenv/bin:$PATH"`
+
 `tfenv install 0.12.7` 
 
 ## Using terraform 
@@ -125,7 +134,7 @@ kube-system   Active   134m
 
 Or 
 
-`kubectl get svc --kubeconfig=kubeconfig_test-eks-YySjiu2M`
+`kubectl get svc --kubeconfig=cubeconfigfilename`
 
 NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 kubernetes   ClusterIP   172.20.0.1   <none>        443/TCP   3h38m
@@ -140,6 +149,13 @@ Once you want to destroy all the infrastructure you will just need to run the fo
 # HELM and deploying apps 
 
 To deploy the applications we will be using helm to deploy applications to kubernettes. https://helm.sh/
+## Installing Helm
+
+### OSX
+`brew install helm`
+
+### Linux
+`apt install helm`
 
 ## Helm init 
 
