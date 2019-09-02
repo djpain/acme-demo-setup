@@ -54,9 +54,41 @@ installing aws iam authenticator
 `export PATH="$HOME/.tfenv/bin:$PATH"`
 `tfenv install 0.12.7` 
 
-## Creating the infrastructure 
+## Using terraform 
+
+### Initalising terraform
 
 Once you have all the tools installed you will need to go to the root directory of this repo. From there run the command `terraofrm workspace new {enviroment name}` and then `terraform init`. Terraform will go then and get all the required modules to setup the required infrastructure.
+
+### Creating terrform enviroment file 
+
+To create the enviroment file from the bash folder run the following command 
+
+`cp tf_env_example dev.tfvars`
+
+From there you will need to open the `dev.tfvars` file with your favorite editor and change the following values.
+
+```
+vpcname = "Name of vpc here"
+namespce = "Namespace here"
+dbname = "database name here"
+dbsgname = "database security group name here"
+dbusername = "database user name here"
+dbpassword = "database user password"
+bucketname = "S3 Bucket name here"
+```
+
+here is a example 
+
+```
+vpcname = "devvpc"
+namespce = "testapplication"
+dbname = "testdatabase"
+dbsgname = "testdatabasesg"
+dbusername = "testuser"
+dbpassword = "Asecurepassword"
+bucketname = "website-bucket"
+```
 
 Once you are ready you can run the following command 
 
