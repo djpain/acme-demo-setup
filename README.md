@@ -43,6 +43,10 @@ To make it easier I made a graph showing all infrastructure layout
 ## Pre-Requiset  
 To get this all deployed you will need `TFENV`, `Terraform v0.12`, `kubectl`, `awscli` and the `aws-iam-authenticator`. To install the `aws-iam-authenticator` you will need to have go installed localy and your $PATH pointing to you `go/bin` directory.
 
+Kubectl 
+https://kubernetes.io/docs/tasks/tools/install-kubectl/
+
+
 setting up go path
 `export PATH="$HOME/go/bin:$PATH"`
 installing aws iam authenticator
@@ -157,14 +161,25 @@ To deploy the applications we will be using helm to deploy applications to kuber
 ### Linux
 `apt install helm`
 
-## Helm init 
+## Helm 
+### setting up helm permissions
 
-To initalise helm you will need to run the following command
+### init 
 
-`helm init`
+#### install helm cli 
+curl -L https://git.io/get_helm.sh | bash
+#### create 'tiller' namespace
+ kubectl create namespace tiller
 
-Now we need to setup k8s to work with it and tiller. To do this please follow this guide from AWS.
-https://docs.aws.amazon.com/eks/latest/userguide/helm.html
+helm init --tiller-namespace tiller --kubeconfig=kubeconfig_testapplication-eks-wMW9Fplf
+helm repo update
+
+#### apply correct rbac permissions
+kubectl apply -f HELM/rbac.yaml --kubeconfig=kubeconfig_testapplication-eks-QT07oReR
+
+#### helm init
+helm init --service-account tiller --kubeconfig=kubeconfig_testapplication-eks-QT07oReR
+
 
 ## Deploying applications to kubernettes
 
@@ -174,17 +189,22 @@ Once you have initalised helm you just need to run the following command to setu
 
 `helm install stable/prometheus --name test-prometheus -f HELM/prometheus_values.yaml --kubeconfig={ClusterConfigFile}`
 
-### Setting ALB intergration
-
-#### kube2iam
+## Setting ALB intergration
 
 #### Installing ingergrator 
 This setups for a service to be able to manage the AWS ALB and redirect traffic from a load balancer through to the container. 
 
-`helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator --kubeconfig=`
+Setting up iam policy 
 
-`helm install incubator/aws-alb-ingress-controller --set autoDiscoverAwsRegion=true --set autoDiscoverAwsVpcID=true --set clusterName=test-cluster --kubeconfig=`
+`aws iam put-role-policy --role-name testapplication-eks-wMW9Fplf20190903114559915700000001  --policy-name alb-ingress-extra --policy-document file://HELM/iam-policy.json`
+
+
+`helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator --kubeconfig={ClusterConfigFile}`
+
+`helm repo update --kubeconfig=kubeconfig_testapplication-eks-wMW9Fplf`
+
+`helm install incubator/aws-alb-ingress-controller --set autoDiscoverAwsRegion=true --set autoDiscoverAwsVpcID=true --set clusterName=testapplication-eks-wMW9Fplf ---kubeconfig=kubeconfig_testapplication-eks-wMW9Fplf`
 
 ### Deploying the API application
 
-`
+We will be using the httpbin app as an example kennethreitz/httpbin
